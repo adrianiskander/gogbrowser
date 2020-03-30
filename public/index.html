@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GOG Browser - Unofficial browser for GOG.com games catalogue">
+
+  <title>GOG Browser - Unofficial browser for GOG.com games catalogue</title>
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap-grid.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap&subset=latin-ext" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./static/css/style.css">
+</head>
+<body>
+
+
+  <section class="Front">
+    <header class="Front-header container">
+      <h1 class="d-flex flex-column mb-0">
+        <span><strong>GOG Browser</strong></span>
+        <span class="d-none"> - </span>
+        <span>Unofficial browser for GOG.com games catalogue</span>
+      </h1>
+      <hr class="mt-3 mb-3" />
+      <a class="btn btn-success text-white" onclick="toggleElementDisplay('.Front');">Start browsing</a>
+    </header>
+  </section>
+
+
+  <div id="app" class="container pt-5">
+    <navbar-component :sort-by="sortBy"></navbar-component>
+    <games-list :games="getGames" :sort-by="sortBy"></games-list>
+  </div>
+
+
+  <template id="games-list-template">
+    <div :if="games">
+      <div v-for="game in games">
+        <div class="row">
+          <div class="col-8"><a v-bind:href="`https://www.gog.com` + game.url" target="_new"><b>{{ game.title }}</b></a></div>
+          <div class="col-2 flex-justify-right">{{ game.rating / 10 }}&#9734;</div>
+          <div class="col-2 flex-justify-right">{{ game.price.finalAmount }}{{ game.price.symbol }}</div>
+        </div>
+      </div>
+    </div>
+    <div :else>
+      <span>Loading....</span>
+    </div>
+  </template>
+
+
+  <template id="navbar-template">
+    <nav class="Navbar">
+      <div class="container-fluid flex-align-center flex-justify-between">
+        <span>GOG Browser</span>
+        <div class="d-flex flex-align-center">
+          <button class="btn btn-light" @click="toggleSortMenu">SORT BY: {{ sortBy }}</button>
+          <div class="Navbar-sort-menu" v-if="isSortMenuVisible">
+            <ul class="container-fluid list-style-none p-0">
+              <li class="Navbar-link" @click="setSortBy('title')">Title</li>
+              <li class="Navbar-link" @click="setSortBy('price')">Price</li>
+              <li class="Navbar-link" @click="setSortBy('rating')">Rating</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </template>
+
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+  <script type="text/javascript" src="./static/js/app.js"></script>
+  <script type="text/javascript" src="./static/js/script.js"></script>
+</body>
+</html>

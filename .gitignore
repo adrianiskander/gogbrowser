@@ -1,0 +1,6 @@
+__pycache__
+*.json
+assets
+confsec.py
+temp
+tmp
